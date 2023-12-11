@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Route - Bus Station Ticket Office Ivano-Frankivsk</title>
+
+    <style>
+        label {
+            display: inline-block;
+            width: 200px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        input {
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            text-align: left;
+            display: inline-block;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Add Route</h1>
+    <div class="button-container">
+        <a th:href="@{/index}" class="button">Back to Schedule</a>
+    </div>
+    <br>
+    <form th:action="@{/addRoute}" th:object="${route}" method="post">
+        <!-- Loop through destinations and fares -->
+        <div th:each="i, destination : *{destinations}">
+            <label th:for="${'Destination-' + i}">Destination:</label>
+            <input type="text" th:id="${'Destination-' + i}" th:field="*{destinations[__${i}__]}" required>
+            <br>
+
+            <label th:for="${'fareToDestination-' + i}">Fare to destination:</label>
+            <input type="text" th:id="${'fareToDestination-' + i}" th:field="*{fares[__${i}__]}" required>
+            <br>
+        </div>
+
+
+        <label for="departureDateTime">Departure Date and Time:</label>
+        <input type="datetime-local" id="departureDateTime" th:field="*{departureDateTime}" required>
+        <br>
+        <label for="totalSeats">Total Seats:</label>
+        <input type="text" id="totalSeats" th:field="*{totalSeats}" required>
+        <br>
+        <input type="submit" value="Add Route">
+        <br>
+        <button type="button" onclick="addDestination()">Create new Destination </button>
+        <br>
+    </form>
+
+</div>
+
+
+<script th:inline="javascript">
+    /* Thymeleaf inline JavaScript to handle adding destinations dynamically */
+    function addDestination() {
+        var destinationIndex = document.querySelectorAll('[id^="Destination-"]').length;
+
+        var newDestinationInput = document.createElement('input');
+        newDestinationInput.type = 'text';
+        newDestinationInput.id = 'Destination-' + destinationIndex;
+        newDestinationInput.name = 'destinations[' + destinationIndex + ']';
+        newDestinationInput.required = true;
+
+        var destinationLabel = document.createElement('label');
+        destinationLabel.htmlFor = 'Destination-' + destinationIndex;
+        destinationLabel.innerText = 'Destination:';
+
+        var newFareInput = document.createElement('input');
+        newFareInput.type = 'text';
+        newFareInput.id = 'fareToDestination-' + destinationIndex;
+        newFareInput.name = 'fares[' + destinationIndex + ']';
+        newFareInput.required = true;
+
+        var fareLabel = document.createElement('label');
+        fareLabel.htmlFor = 'fareToDestination-' + destinationIndex;
+        fareLabel.innerText = 'Fare to destination:';
+
+        var br = document.createElement('br');
+
+        var destinationContainer = document.querySelector('form');
+        destinationContainer.appendChild(br);
+        destinationContainer.appendChild(destinationLabel);
+        destinationContainer.appendChild(newDestinationInput);
+        destinationContainer.appendChild(br.cloneNode());
+        destinationContainer.appendChild(fareLabel);
+        destinationContainer.appendChild(newFareInput);
+        destinationContainer.appendChild(br.cloneNode());
+    }
+</script>
+
+</body>
+</html>

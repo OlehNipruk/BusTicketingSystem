@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Station Ticket Office Ivano-Frankivsk</title>
+
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Bus Station Ticket Office Ivano-Frankivsk</h1>
+    <h2>Bus Schedule</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Route Number</th>
+            <th>Destinations</th>
+            <th>Departure Time</th>
+            <th>Available Seats</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="route : ${routes}">
+            <td th:text="${route.id}">Route Number</td>
+            <td>
+                <ul>
+                    <li th:each="destination : ${route.destinations}" th:text="${destination}"></li>
+                </ul>
+            </td>
+            <td th:text="${route.departureDateTime}">Departure Time</td>
+            <td th:text="${route.totalSeats}">Available Seats</td>
+            <td>
+                <form th:action="@{'/deleteRoute/' + ${route.id}}" method="post">
+                    <button type="submit" th:id="'deleteButton_' + ${route.id}">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Buttons -->
+    <div class="button-container">
+        <a th:href="@{/addRoute}">Add Route</a>
+        <a th:href="@{/selectNearestRoute}">Select Nearest Route</a>
+        <a th:href="@{/buyTicket}">Buy Ticket</a>
+        <a th:href="@{/returnTicket}">Return Ticket</a>
+        <a th:href="@{/boardingPass}">Boarding Pass</a>
+    </div>
+</div>
+</body>
+</html>

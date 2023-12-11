@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Ticket Details</title>
+    <style>
+        .button-container a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <div style="text-align: center;">
+        <h1>Ticket</h1>
+
+        <div>
+            <p th:text="'Ticket ID: ' + ${ticket.id}"></p>
+            <p th:text="'Route ID: ' + ${ticket.route.id}"></p>
+            <p th:text="'Destination: ' + ${ticket.destination}"></p>
+            <p th:text="'Ticket Price: ' + ${ticket.ticketPrice}"></p>
+            <p th:text="'Departure Time: ' + ${ticket.departureDateTime}"></p>
+        </div>
+
+        <div class="button-container">
+            <a th:href="@{/}" style="background-color: #4CAF50;">Back to Schedule</a>
+        </div>
+    </div>
+</body>
+</html>

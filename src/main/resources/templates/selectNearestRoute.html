@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Nearest Route</title>
+    <style>
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form label, form select, form button {
+            margin: 10px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Select Nearest Route</h1>
+
+    <div class="button-container">
+        <a th:href="@{/}" style="background-color: #4CAF50;">Back to Schedule</a>
+    </div>
+    <div class="form-container">
+        <form th:action="@{/findNearestRoute}" method="post">
+            <label for="destination">Select Destination:</label>
+            <select name="destination" id="destination">
+                <option th:each="dest : ${destinations}" th:value="${dest}" th:text="${dest}"></option>
+            </select>
+            <button type="submit">Find</button>
+        </form>
+    </div>
+
+    <hr>
+    <div th:if="${nearestRoute != null}">
+
+        <table>
+            <thead>
+            <tr>
+                <th>Route Number</th>
+                <th>Destinations</th>
+                <th>Departure Time</th>
+                <th>Available Seats</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${nearestRoute.id}">Route Number</td>
+                <td>
+                    <ul>
+                        <li th:each="destination : ${nearestRoute.destinations}" th:text="${destination}"></li>
+                    </ul>
+
+                </td>
+
+                <td th:text="${nearestRoute.departureDateTime}">Departure Time</td>
+                <td th:text="${nearestRoute.totalSeats}">Available Seats</td>
+                <td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${nearestRoute != null}">
+
+        <p th:text="${message}"></p>
+    </div>
+</div>
+</body>
+</html>
+

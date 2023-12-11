@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Return Ticket</title>
+    <style>
+
+        .button-container a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        form label, form select, form button {
+            margin: 10px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div style="text-align: center;">
+        <h1>Return Ticket</h1>
+
+        <p th:text="'Select Ticket to Return:'"></p>
+        <form th:action="@{/returnTicket}" method="post">
+            <label for="ticketId">Ticket ID:</label>
+            <select id="ticketId" name="ticketId">
+                                <option th:each="ticketId : ${ticketIds}" th:value="${ticketId}" th:text="${ticketId}"></option>
+            </select>
+            <button type="submit">Return Ticket</button>
+        </form>
+        <div class="button-container">
+            <a th:href="@{/}" style="background-color: #4CAF50;">Back to Schedule</a>
+        </div>
+
+    </div>
+</body>
+</html>
